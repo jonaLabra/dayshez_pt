@@ -1,3 +1,4 @@
+import 'package:dayshez_pt/LoadingScreen.dart';
 import 'package:dayshez_pt/SplashScreen.dart';
 import 'package:dayshez_pt/screens/Home/HomeScreen.dart';
 import 'package:dayshez_pt/screens/Login/ChangePasswordScreen.dart';
@@ -8,8 +9,15 @@ import 'package:dayshez_pt/screens/Login/VerifyEmailScreen.dart';
 import 'package:dayshez_pt/screens/SignUp/SignUpScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:dayshez_pt/ .env';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Supabase.initialize(
+    url: URL_SUPABASE,
+    anonKey: API_KEY_SUPABASE,
+  );
   runApp(const MyApp());
 }
 
@@ -42,6 +50,7 @@ class MyApp extends StatelessWidget {
           '/codeVerify': (context) => const CodeVerificationScreen(),
           '/recoverAccount': (context) => const RecoverAccountScreen(),
           '/changePassword': (context) => const ChangePasswordScreen(),
+          '/loading': (context) => const LoadingScreen(),
         },
       ),
     );

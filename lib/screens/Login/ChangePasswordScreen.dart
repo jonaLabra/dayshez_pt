@@ -50,10 +50,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           verticalSpaceLarge,
           //Contenedor elementos
           TextFieldBox(
+              controller: TextEditingController(),
               textInputType: TextInputType.visiblePassword,
               labelText: newPassword,
               icon: Icons.lock_outline_sharp),
           TextFieldBox(
+              controller: TextEditingController(),
               textInputType: TextInputType.visiblePassword,
               labelText: verifyNewPassword,
               icon: Icons.lock_outline_sharp),

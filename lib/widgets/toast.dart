@@ -17,21 +17,21 @@ class CustomToast extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: MediaQuery.of(context).size.width * 0.70,
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20.0),
           border: Border.all(color: color!),
           color: whiteColor),
       child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
             iconTitle!,
             color: color,
           ),
-          horizontalSpaceSmall,
-          Text(title!),
+          horizontalSpaceMedium,
+          Flexible(child: Text(title!)),
           iconButton != null
               ? IconButton(onPressed: onPressed, icon: Icon(iconButton))
               : const SizedBox()
