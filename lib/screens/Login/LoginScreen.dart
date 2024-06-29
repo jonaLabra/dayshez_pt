@@ -1,11 +1,11 @@
 // ignore_for_file: file_names
 
+import 'package:dayshez_pt/service/database.dart';
 import 'package:dayshez_pt/utils.dart';
 import 'package:dayshez_pt/widgets/button.dart';
 import 'package:dayshez_pt/widgets/header.dart';
 import 'package:dayshez_pt/widgets/text_field.dart';
 import 'package:dayshez_pt/widgets/text_link.dart';
-import 'package:dayshez_pt/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -19,6 +19,10 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   late FToast fToast;
   var formKey = GlobalKey<FormState>();
+  bool _isLoading = false;
+  late final TextEditingController _emailController = TextEditingController();
+  late final TextEditingController _passwordController =
+      TextEditingController();
 
   @override
   void initState() {
@@ -31,6 +35,35 @@ class _LoginScreenState extends State<LoginScreen> {
   void dispose() {
     super.dispose();
     fToast.removeCustomToast();
+  }
+
+  Future<void> _signInWithEmailAndPassword(
+      String email, String password) async {
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+      var isLoged =
+          await Database().signInWithEmailPassword(email, password, fToast);
+      if (isLoged) {
+        _emailController.clear();
+        _passwordController.clear();
+        if (!mounted) return;
+        Navigator.pushReplacementNamed(context, '/home');
+      }
+    } catch (error) {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   @override
@@ -51,10 +84,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 verticalSpaceSmall,
                 //Contenedor elementos
                 TextFieldBox(
-                    textInputType: TextInputType.name,
+                    controller: _emailController,
+                    textInputType: TextInputType.emailAddress,
                     labelText: userName,
                     icon: Icons.alternate_email),
                 TextFieldBox(
+                    controller: _passwordController,
                     textInputType: TextInputType.visiblePassword,
                     icon: Icons.lock_outline,
                     labelText: password),
@@ -64,31 +99,17 @@ class _LoginScreenState extends State<LoginScreen> {
                             EdgeInsets.all(15)),
                         backgroundColor:
                             MaterialStatePropertyAll<Color>(primaryColor)),
-                    title: initSession,
-                    onTap: () {
-                      var isValid = formKey.currentState!.validate();
-                      if (isValid) {
-                        fToast.showToast(
-                            child: const CustomToast(
-                              iconTitle: Icons.supervisor_account_sharp,
-                              title: confirmLogin,
-                              color: greenColor,
-                            ),
-                            gravity: ToastGravity.BOTTOM,
-                            toastDuration: const Duration(seconds: 2),
-                            positionedToastBuilder: (_, child) {
-                              return Positioned(
-                                top: 25.0,
-                                left: 40.0,
-                                child: child,
-                              );
-                            });
-                        Future.delayed(
-                            const Duration(milliseconds: 2200),
-                            () => Navigator.pushReplacementNamed(
-                                context, '/home'));
-                      }
-                    },
+                    title: _isLoading ? loadingSession : initSession,
+                    onTap: _isLoading
+                        ? null
+                        : () async {
+                            var isValid = formKey.currentState!.validate();
+                            if (isValid) {
+                              await _signInWithEmailAndPassword(
+                                  _emailController.text,
+                                  _passwordController.text);
+                            }
+                          },
                     styleTextButton: const TextStyle(color: whiteColor)),
                 TextLink(
                   title: notHaveAccount,

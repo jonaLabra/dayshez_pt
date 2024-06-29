@@ -21,12 +21,12 @@ class OrderCard extends StatelessWidget {
             Expanded(
                 flex: 3,
                 child: Hero(
-                  tag: order!.name!,
+                  tag: '${order!.name!}${order!.id}',
                   transitionOnUserGestures: true,
-                  child: CircleAvatar(
-                      backgroundColor: whiteColor,
-                      radius: MediaQuery.of(context).size.height * .07,
-                      child: Image.asset(
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100.0),
+                      child: Image.network(
+                        height: 100.h,
                         order!.pathImage!,
                         fit: BoxFit.cover,
                       )),
@@ -70,7 +70,7 @@ class OrderCard extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  order!.company!,
+                                  order!.subCompany!,
                                   style: TextStyle(
                                       color: greyColor, fontSize: 16.sp),
                                 )
@@ -86,15 +86,21 @@ class OrderCard extends StatelessWidget {
                                 Text(
                                   order!.status == OrderStatus.success
                                       ? STATUS_COMPLETE
-                                      : order!.status == OrderStatus.loading
-                                          ? STATUS_LOADING
-                                          : order!.status == OrderStatus.error
-                                              ? STATUS_ERROR
-                                              : STATUS_UNDEFINED,
+                                      : order!.status == OrderStatus.error
+                                          ? STATUS_ERROR
+                                          : order!.status == OrderStatus.show
+                                              ? STATUS_SHOW
+                                              : order!.status ==
+                                                      OrderStatus.noShow
+                                                  ? STATUS_NO_SHOW
+                                                  : STATUS_UNDEFINED,
                                   style: TextStyle(
-                                      color: order!.status == OrderStatus.error
-                                          ? redColor
-                                          : greyColor,
+                                      color:
+                                          order!.status == OrderStatus.error ||
+                                                  order!.status ==
+                                                      OrderStatus.noShow
+                                              ? redColor
+                                              : greenColor,
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w900),
                                 )
@@ -113,7 +119,10 @@ class OrderCard extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  SvgPicture.asset(order!.iconPath!),
+                                  order!.status == OrderStatus.success ||
+                                          order!.status == OrderStatus.error
+                                      ? SvgPicture.asset(item1)
+                                      : SvgPicture.asset(item2),
                                   const Icon(Icons.arrow_forward_ios)
                                 ])
                           ],

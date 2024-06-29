@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:another_flutter_splash_screen/another_flutter_splash_screen.dart';
-import 'package:dayshez_pt/screens/Login/LoginScreen.dart';
+import 'package:dayshez_pt/LoadingScreen.dart';
 import 'package:dayshez_pt/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -13,11 +13,11 @@ class SplasScreen extends StatelessWidget {
     return FlutterSplashScreen.fadeIn(
         animationCurve: Curves.linear,
         backgroundColor: whiteColor,
-        nextScreen: const LoginScreen(),
+        nextScreen: const LoadingScreen(),
         childWidget: SizedBox(
-          height: 200,
-          width: 200,
-          child: Image.asset("assets/images/logo.png"),
+          height: MediaQuery.of(context).size.height * 0.20,
+          width: MediaQuery.of(context).size.width * 0.20,
+          child: Image.asset(assetLogo),
         ));
   }
 }

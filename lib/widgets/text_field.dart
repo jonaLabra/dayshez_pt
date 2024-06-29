@@ -10,10 +10,12 @@ class TextFieldBox extends StatelessWidget {
       {super.key,
       required this.textInputType,
       required this.icon,
-      required this.labelText});
+      required this.labelText,
+      required this.controller});
   TextInputType? textInputType;
   IconData? icon;
   String? labelText = '';
+  TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,7 @@ class TextFieldBox extends StatelessWidget {
             ]),
         child: textInputType == TextInputType.visiblePassword
             ? TextFormField(
+                controller: controller,
                 keyboardType: textInputType!,
                 obscureText: true,
                 decoration: InputDecoration(
@@ -54,6 +57,7 @@ class TextFieldBox extends StatelessWidget {
               )
             : textInputType == TextInputType.emailAddress
                 ? TextFormField(
+                    controller: controller,
                     keyboardType: textInputType!,
                     decoration: InputDecoration(
                       icon: Icon(icon),
@@ -70,6 +74,7 @@ class TextFieldBox extends StatelessWidget {
                     })
                 : textInputType == TextInputType.phone
                     ? TextFormField(
+                        controller: controller,
                         keyboardType: textInputType!,
                         decoration: InputDecoration(
                           icon: Icon(icon),
@@ -86,6 +91,7 @@ class TextFieldBox extends StatelessWidget {
                         })
                     : textInputType == TextInputType.name
                         ? TextFormField(
+                            controller: controller,
                             keyboardType: textInputType!,
                             decoration: InputDecoration(
                               icon: Icon(icon),

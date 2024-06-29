@@ -16,12 +16,12 @@ class DetailOrder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: HeaderHome(context, false),
+      appBar: HeaderHome(context),
       body: SingleChildScrollView(
         child: Column(
           children: [
             Hero(
-              tag: order!.name!,
+              tag: '${order!.name!}${order!.id}',
               child: Container(
                   margin: const EdgeInsets.all(10),
                   height: MediaQuery.of(context).size.height * .30,
@@ -29,7 +29,7 @@ class DetailOrder extends StatelessWidget {
                       color: whiteColor,
                       borderRadius: BorderRadius.circular(10),
                       image: DecorationImage(
-                          image: AssetImage(order!.pathImage!),
+                          image: NetworkImage(order!.pathImage!),
                           fit: BoxFit.cover),
                       boxShadow: const [
                         BoxShadow(
@@ -80,15 +80,19 @@ class DetailOrder extends StatelessWidget {
                         Text(
                           order!.status == OrderStatus.success
                               ? STATUS_COMPLETE
-                              : order!.status == OrderStatus.loading
-                                  ? STATUS_LOADING
-                                  : order!.status == OrderStatus.error
-                                      ? STATUS_ERROR
-                                      : STATUS_UNDEFINED,
+                              : order!.status == OrderStatus.error
+                                  ? STATUS_ERROR
+                                  : order!.status == OrderStatus.show
+                                      ? STATUS_SHOW
+                                      : order!.status == OrderStatus.noShow
+                                          ? STATUS_NO_SHOW
+                                          : STATUS_UNDEFINED,
                           style: TextStyle(
-                              color: order!.status == OrderStatus.error
+                              color: order!.status == OrderStatus.noShow ||
+                                      order!.status == OrderStatus.error
                                   ? redColor
-                                  : order!.status == OrderStatus.success
+                                  : order!.status == OrderStatus.success ||
+                                          order!.status == OrderStatus.show
                                       ? greenColor
                                       : greyColor,
                               fontSize: 16.sp,
@@ -116,7 +120,7 @@ class DetailOrder extends StatelessWidget {
                       children: [
                         Column(children: [
                           Text(
-                            'Tu pedido',
+                            yourOrder,
                             textAlign: TextAlign.left,
                             style: TextStyle(
                                 color: blackColor,
@@ -133,7 +137,7 @@ class DetailOrder extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Reserva a ${order!.company!}',
+                              'Reserva a ${order!.subCompany!}',
                               textAlign: TextAlign.left,
                               style:
                                   TextStyle(color: blackColor, fontSize: 18.sp),
@@ -146,7 +150,7 @@ class DetailOrder extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Total pagado',
+                              totalPaid,
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                   color: blackColor,
@@ -168,16 +172,13 @@ class DetailOrder extends StatelessWidget {
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('Método de pago'),
+                          const Text(paymentMethod),
                           SvgPicture.asset(
                             visa,
                             height: 20,
                           ),
                           const Column(
-                            children: [
-                              Text('ICIC Bank Card'),
-                              Text('********5486')
-                            ],
+                            children: [Text(typeCard), Text(numCard)],
                           )
                         ],
                       ),

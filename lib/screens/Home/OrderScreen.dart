@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:dayshez_pt/models/order.dart';
-import 'package:dayshez_pt/screens/Home/DetailOrder.dart';
+import 'package:dayshez_pt/operations/operations_orders.dart';
 import 'package:dayshez_pt/utils.dart';
 import 'package:dayshez_pt/widgets/button.dart';
 import 'package:dayshez_pt/widgets/header_home.dart';
@@ -11,19 +11,20 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
 class OrderScreen extends StatelessWidget {
-  const OrderScreen({super.key, required this.order});
+  OrderScreen({super.key, required this.order});
   final Order order;
+  final MathOperations mathOp = MathOperations();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: HeaderHome(context, false),
+        appBar: HeaderHome(context),
         body: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
               Hero(
-                tag: order.name!,
+                tag: '${order.name!}${order.id}',
                 child: Container(
                     margin: const EdgeInsets.all(10),
                     height: MediaQuery.of(context).size.height * .30,
@@ -31,7 +32,7 @@ class OrderScreen extends StatelessWidget {
                         color: whiteColor,
                         borderRadius: BorderRadius.circular(10),
                         image: DecorationImage(
-                            image: AssetImage(order.pathImage!),
+                            image: NetworkImage(order.pathImage!),
                             fit: BoxFit.cover),
                         boxShadow: const [
                           BoxShadow(
@@ -82,11 +83,13 @@ class OrderScreen extends StatelessWidget {
                         Text(
                           order.status == OrderStatus.success
                               ? STATUS_COMPLETE
-                              : order.status == OrderStatus.loading
-                                  ? STATUS_LOADING
-                                  : order.status == OrderStatus.error
-                                      ? STATUS_ERROR
-                                      : STATUS_UNDEFINED,
+                              : order.status == OrderStatus.error
+                                  ? STATUS_ERROR
+                                  : order.status == OrderStatus.show
+                                      ? STATUS_SHOW
+                                      : order.status == OrderStatus.noShow
+                                          ? STATUS_NO_SHOW
+                                          : STATUS_UNDEFINED,
                           style: TextStyle(
                               color: order.status == OrderStatus.error
                                   ? redColor
@@ -124,10 +127,13 @@ class OrderScreen extends StatelessWidget {
                           Icons.place,
                           color: greyColor,
                         ),
-                        Text(
-                          order.location!,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(color: greyColor, fontSize: 18.sp),
+                        FittedBox(
+                          child: Text(
+                            order.location!,
+                            textAlign: TextAlign.left,
+                            style: const TextStyle(
+                                color: greyColor, fontWeight: FontWeight.w400),
+                          ),
                         ),
                       ],
                     ),
@@ -141,7 +147,7 @@ class OrderScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
-                                'Tu Pedido',
+                                yourOrder,
                                 style: TextStyle(
                                     color: blackColor,
                                     fontSize: 30.sp,
@@ -223,11 +229,11 @@ class OrderScreen extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Total de los articulos',
+                                    totalArticles,
                                     style: TextStyle(fontSize: 18.sp),
                                   ),
                                   Text(
-                                    '792.00',
+                                    '${mathOp.getTotalArticle(order.orders)}',
                                     style: TextStyle(fontSize: 18.sp),
                                   )
                                 ],
@@ -238,12 +244,12 @@ class OrderScreen extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Descuento',
+                                    discount,
                                     style: TextStyle(
                                         color: greenColor, fontSize: 18.sp),
                                   ),
                                   Text(
-                                    '-172.00',
+                                    '$discountPrice',
                                     style: TextStyle(
                                         fontSize: 18.sp, color: greenColor),
                                   )
@@ -254,9 +260,8 @@ class OrderScreen extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('Envío',
-                                      style: TextStyle(fontSize: 18.sp)),
-                                  Text('60.00',
+                                  Text(send, style: TextStyle(fontSize: 18.sp)),
+                                  Text('$sendPrice',
                                       style: TextStyle(fontSize: 18.sp))
                                 ],
                               ),
@@ -265,9 +270,8 @@ class OrderScreen extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('Propina',
-                                      style: TextStyle(fontSize: 18.sp)),
-                                  Text('13.00',
+                                  Text(tip, style: TextStyle(fontSize: 18.sp)),
+                                  Text('$tipPrice',
                                       style: TextStyle(fontSize: 18.sp))
                                 ],
                               ),
@@ -277,13 +281,13 @@ class OrderScreen extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Total pagado',
+                                    totalPaid,
                                     style: TextStyle(
                                         color: blackColor,
                                         fontSize: 21.sp,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  Text('693.00',
+                                  Text('${mathOp.getTotalPaid()}',
                                       style: TextStyle(
                                           fontSize: 21.sp,
                                           color: blackColor,
@@ -299,16 +303,13 @@ class OrderScreen extends StatelessWidget {
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text('Método de pago'),
+                                const Text(paymentMethod),
                                 SvgPicture.asset(
                                   visa,
                                   height: 20,
                                 ),
                                 const Column(
-                                  children: [
-                                    Text('ICIC Bank Card'),
-                                    Text('********5486')
-                                  ],
+                                  children: [Text(typeCard), Text(numCard)],
                                 )
                               ],
                             ),
@@ -335,11 +336,7 @@ class OrderScreen extends StatelessWidget {
                                     MaterialStatePropertyAll<Color>(
                                         whiteColor)),
                             title: invocie,
-                            onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute<void>(
-                                  builder: (_) => DetailOrder(order: order),
-                                )),
+                            onTap: () {},
                             styleTextButton: TextStyle(
                                 color: blackColor,
                                 fontSize: 18.sp,

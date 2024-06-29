@@ -28,6 +28,7 @@ class RecoverAccountScreen extends StatelessWidget {
           verticalSpaceLarge,
           //Contenedor elementos
           TextFieldBox(
+              controller: TextEditingController(),
               textInputType: TextInputType.emailAddress,
               labelText: emailRecover,
               icon: Icons.person_outline_outlined),

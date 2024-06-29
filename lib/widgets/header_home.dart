@@ -4,7 +4,7 @@ import 'package:dayshez_pt/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-AppBar HeaderHome(BuildContext context, bool isHome) => AppBar(
+AppBar HeaderHome(BuildContext context) => AppBar(
       backgroundColor: whiteColor,
       centerTitle: true,
       title: const Text(
@@ -25,7 +25,7 @@ AppBar HeaderHome(BuildContext context, bool isHome) => AppBar(
                 borderRadius: BorderRadius.circular(10), color: blackColor),
             child: IconButton(
               icon: Icon(Icons.adaptive.arrow_back, color: whiteColor),
-              onPressed: () => isHome ? null : Navigator.pop(context),
+              onPressed: () => Navigator.pop(context),
             )),
       ),
     );

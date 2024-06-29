@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+//API KEYS
+
 //Colors
 const Color primaryColor = Color.fromRGBO(227, 2, 111, 1);
 const Color blackColor = Colors.black;
@@ -14,6 +16,7 @@ const Color transparentColor = Colors.transparent;
 const Color greyColor = Colors.grey;
 const Color greenColor = Colors.green;
 const Color redColor = Colors.red;
+const Color yellowColor = Colors.yellow;
 Color pinkColor50 = Colors.pink[50]!;
 
 //Images
@@ -79,15 +82,39 @@ const String confirmChangePass = 'Cambio de contraseña exitoso!';
 const String validateEmail = 'Email no es válido, verifique nuevamente';
 const String validatePassword = 'La contraseña no coincide';
 const String confirmLogin = 'Se logueo correctamente';
+const String errorLogin = 'Error al inciar sesión';
+const String warningLogin =
+    'Usuario o contraseña incorrectos, revise los datos!';
+const String confirmSignUp = 'Registro exitoso, revise su correo';
 const String titleHome = 'Historial';
 const String STATUS_COMPLETE = 'Completado';
-const String STATUS_LOADING = 'Presentado';
-const String STATUS_ERROR = 'No Presentado';
+const String STATUS_ERROR = 'Cancelado';
+const String STATUS_SHOW = 'Presentado';
+const String STATUS_NO_SHOW = 'No Presentado';
 const String STATUS_UNDEFINED = 'Undefined';
 const String reorder = 'Reordenar';
 const String invocie = 'Ver factura';
 const String needHepl = '¿Necesitas ayuda?';
+const String loadingSession = 'Iniciando sesión...';
+const String loadignAccount = 'Registrando...';
+const String loading = 'Cargando...';
+const String yourOrder = 'Tu pedido';
+const String totalArticles = 'Total de artículos';
+const String discount = 'Descuento';
+const String send = 'Envío';
+const String tip = 'Propina';
+const String totalPaid = 'Total pagado';
+const String paymentMethod = 'Método de pago';
+const String typeCard = 'ICIC Bank Card';
+const String numCard = '******5486';
+const String emptyOrders = 'No hay órdenes';
+const String search = 'Buscar...';
 String requiredField(String field) => 'El campo $field es requerido';
+
+//Int
+const double discountPrice = 172.00;
+const double sendPrice = 60.00;
+const double tipPrice = 13.00;
 
 //widgets
 const verticalSpaceSmall = SizedBox(height: 10);
