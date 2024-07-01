@@ -1,15 +1,25 @@
 // ignore_for_file: file_names
 
-import 'package:dayshez_pt/utils.dart';
+import 'package:dayshez_pt/Log/Login/ui/LoginScreen.dart';
+import 'package:dayshez_pt/Log/data/provider/show_password.dart';
+import 'package:dayshez_pt/core/utils.dart';
 import 'package:dayshez_pt/widgets/button.dart';
 import 'package:dayshez_pt/widgets/text_field.dart';
 import 'package:dayshez_pt/widgets/text_link.dart';
 import 'package:dayshez_pt/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({super.key});
+
+  static Page page() => const MaterialPage<void>(child: ChangePasswordScreen());
+
+  static Route<void> route() {
+    return MaterialPageRoute(
+        builder: (context) => const ChangePasswordScreen());
+  }
 
   @override
   State<ChangePasswordScreen> createState() => _ChangePasswordScreenState();
@@ -33,6 +43,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var passProvider = Provider.of<ShowPassword>(context);
     return Scaffold(
         body: Container(
       margin: const EdgeInsets.only(left: 30, right: 30),
@@ -50,15 +61,21 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           verticalSpaceLarge,
           //Contenedor elementos
           TextFieldBox(
-              controller: TextEditingController(),
-              textInputType: TextInputType.visiblePassword,
-              labelText: newPassword,
-              icon: Icons.lock_outline_sharp),
+            controller: TextEditingController(),
+            textInputType: TextInputType.visiblePassword,
+            labelText: newPassword,
+            icon: Icons.lock_outline_sharp,
+            passProvider: passProvider,
+            onChange: (p0) {},
+          ),
           TextFieldBox(
-              controller: TextEditingController(),
-              textInputType: TextInputType.visiblePassword,
-              labelText: verifyNewPassword,
-              icon: Icons.lock_outline_sharp),
+            controller: TextEditingController(),
+            textInputType: TextInputType.visiblePassword,
+            labelText: verifyNewPassword,
+            icon: Icons.lock_outline_sharp,
+            passProvider: passProvider,
+            onChange: (p0) {},
+          ),
           Button(
               buttonStyle: const ButtonStyle(
                   padding: MaterialStatePropertyAll<EdgeInsetsGeometry>(
@@ -88,7 +105,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             title: ignoreMessage,
             textRedirect: returnLogin,
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/login');
+              Navigator.pushReplacement(context, LoginScreen.route());
             },
           ),
         ],

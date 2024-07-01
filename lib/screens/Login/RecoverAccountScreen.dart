@@ -1,14 +1,28 @@
 // ignore_for_file: file_names
 
-import 'package:dayshez_pt/utils.dart';
+import 'package:dayshez_pt/Log/SignUp/ui/SignUpScreen.dart';
+import 'package:dayshez_pt/screens/Login/ChangePasswordScreen.dart';
+import 'package:dayshez_pt/core/utils.dart';
 import 'package:dayshez_pt/widgets/button.dart';
 import 'package:dayshez_pt/widgets/text_field.dart';
 import 'package:dayshez_pt/widgets/text_link.dart';
 import 'package:flutter/material.dart';
 
-class RecoverAccountScreen extends StatelessWidget {
+class RecoverAccountScreen extends StatefulWidget {
   const RecoverAccountScreen({super.key});
 
+  static Page page() => const MaterialPage<void>(child: RecoverAccountScreen());
+
+  static Route<void> route() {
+    return MaterialPageRoute(
+        builder: (context) => const RecoverAccountScreen());
+  }
+
+  @override
+  State<RecoverAccountScreen> createState() => _RecoverAccountScreenState();
+}
+
+class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +54,7 @@ class RecoverAccountScreen extends StatelessWidget {
               iconData: Icons.adaptive.arrow_forward,
               title: recover,
               onTap: () {
-                Navigator.pushNamed(context, '/changePassword');
+                Navigator.push(context, ChangePasswordScreen.route());
               },
               styleTextButton:
                   const TextStyle(color: whiteColor, fontSize: 20)),
@@ -48,7 +62,7 @@ class RecoverAccountScreen extends StatelessWidget {
             title: notHaveAccount,
             textRedirect: signUp,
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/signup');
+              Navigator.pushReplacement(context, SignUpScreen.route());
             },
           ),
         ],

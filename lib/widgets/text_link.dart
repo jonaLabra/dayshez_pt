@@ -1,4 +1,4 @@
-import 'package:dayshez_pt/utils.dart';
+import 'package:dayshez_pt/core/utils.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 

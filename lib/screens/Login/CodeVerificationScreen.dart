@@ -1,6 +1,6 @@
 // ignore_for_file: file_names
 
-import 'package:dayshez_pt/utils.dart';
+import 'package:dayshez_pt/core/utils.dart';
 import 'package:dayshez_pt/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
@@ -8,6 +8,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class CodeVerificationScreen extends StatefulWidget {
   const CodeVerificationScreen({super.key});
+
+  static Page page() =>
+      const MaterialPage<void>(child: CodeVerificationScreen());
+
+  static Route<void> route() {
+    return MaterialPageRoute(
+        builder: (context) => const CodeVerificationScreen());
+  }
 
   @override
   State<CodeVerificationScreen> createState() => _CodeVerificationScreenState();
