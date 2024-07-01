@@ -1,16 +1,19 @@
 # dayshez_pt
 
-A new Flutter project.
+Prueba Técnica Dayshez
 
-## Getting Started
+## Acceso
 
-This project is a starting point for a Flutter application.
+Credenciales para el ingreso a la app.
 
-A few resources to get you started if this is your first Flutter project:
+##TEST 1
+* email: dayshez_t1@dayshez.com
+* password: 12345678
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+##TEST 2
+* email: dayshez_t2@dayshez.com
+* password: 12345678
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+# Nota
+- Puede registrarse en la app e ingresar con su nuevo usuario, con email y password o autenticado con una cuenta de google
