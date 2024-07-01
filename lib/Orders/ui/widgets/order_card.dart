@@ -109,31 +109,33 @@ class OrderCard extends StatelessWidget {
                         )),
                     Expanded(
                         flex: 3,
-                        child: FittedBox(
-                          fit: BoxFit.contain,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    order!.status == OrderStatus.success ||
-                                            order!.status == OrderStatus.error
-                                        ? SvgPicture.asset(
-                                            item1,
-                                            fit: BoxFit.contain,
-                                          )
-                                        : SvgPicture.asset(
-                                            item2,
-                                            fit: BoxFit.cover,
-                                          ),
-                                    const Icon(Icons.arrow_forward_ios)
-                                  ])
-                            ],
-                          ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  order!.status == OrderStatus.success ||
+                                          order!.status == OrderStatus.error
+                                      ? SvgPicture.asset(
+                                          height: 20.h,
+                                          item1,
+                                          fit: BoxFit.contain,
+                                        )
+                                      : SvgPicture.asset(
+                                          height: 20.h,
+                                          item2,
+                                          fit: BoxFit.cover,
+                                        ),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 20.r,
+                                  )
+                                ])
+                          ],
                         ))
                   ],
                 ))
