@@ -1,5 +1,5 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
-import 'package:dayshez_pt/utils.dart';
+import 'package:dayshez_pt/core/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -30,7 +30,7 @@ class Button extends StatelessWidget {
         child: pathIcon != null
             ? Row(
                 mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   SvgPicture.asset(
                     pathIcon!,

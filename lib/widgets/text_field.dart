@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:dayshez_pt/utils.dart';
+import 'package:dayshez_pt/Log/data/provider/show_password.dart';
+import 'package:dayshez_pt/core/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:email_validator/email_validator.dart';
@@ -11,11 +12,15 @@ class TextFieldBox extends StatelessWidget {
       required this.textInputType,
       required this.icon,
       required this.labelText,
-      required this.controller});
+      required this.controller,
+      this.passProvider,
+      this.onChange});
   TextInputType? textInputType;
   IconData? icon;
   String? labelText = '';
+  Function(String)? onChange;
   TextEditingController controller;
+  ShowPassword? passProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -37,17 +42,18 @@ class TextFieldBox extends StatelessWidget {
             ? TextFormField(
                 controller: controller,
                 keyboardType: textInputType!,
-                obscureText: true,
+                obscureText: passProvider!.obscureText,
                 decoration: InputDecoration(
                     icon: Icon(icon),
                     labelText: labelText,
                     contentPadding: const EdgeInsets.all(10),
                     border: InputBorder.none,
                     suffixIcon: IconButton(
-                      icon: const Icon(Icons.visibility),
-                      onPressed: () {},
-                    )),
-                onChanged: (valor) {},
+                        onPressed: passProvider!.visiblePassword,
+                        icon: Icon(passProvider!.obscureText
+                            ? Icons.visibility
+                            : Icons.visibility_off))),
+                onChanged: onChange,
                 autofillHints: const [AutofillHints.password],
                 onEditingComplete: () => TextInput.finishAutofillContext(),
                 validator: (value) {
@@ -65,7 +71,7 @@ class TextFieldBox extends StatelessWidget {
                       contentPadding: const EdgeInsets.all(10),
                       border: InputBorder.none,
                     ),
-                    onChanged: (valor) {},
+                    onChanged: onChange,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (value) {
                       return (value!.isEmpty
@@ -82,7 +88,7 @@ class TextFieldBox extends StatelessWidget {
                           contentPadding: const EdgeInsets.all(10),
                           border: InputBorder.none,
                         ),
-                        onChanged: (valor) {},
+                        onChanged: onChange,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           return (value!.isEmpty
@@ -99,7 +105,7 @@ class TextFieldBox extends StatelessWidget {
                               contentPadding: const EdgeInsets.all(10),
                               border: InputBorder.none,
                             ),
-                            onChanged: (valor) {},
+                            onChanged: onChange,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             validator: (value) {
